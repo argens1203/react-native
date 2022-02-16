@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
-import { Button } from 'react-native';
+import { Button, FlatList } from 'react-native';
 import * as Calendar from 'expo-calendar';
 import { DateTime } from 'luxon';
 
@@ -40,9 +40,12 @@ export default function TestTabScreen({ navigation }: RootTabScreenProps<'TabOne
 
   return (
     <View style={styles.container}>
-      <View>
-        {events.map((e: CalendarEvent) => <Event event={e}/>)}
-      </View>
+        <FlatList
+          style={{paddingTop: 30}}
+          data={events}
+          renderItem={({item}) => (<Event event={item}/>)}
+          keyExtractor={(e: CalendarEvent) => e.id}
+        />
       <Button onPress={requestPermission} title={'Request Permission'}/>
       <Button onPress={getCalendarEvents} title={'Get Calendars Event'}/>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />

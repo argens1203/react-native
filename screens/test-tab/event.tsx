@@ -15,8 +15,8 @@ export function Event (props: Props){
         <View style={{flexDirection: 'row', borderWidth: 1, borderColor: 'black', justifyContent: 'space-between'}}>
             <View style={{padding: 10}}><Text>{title}</Text></View>
             <View>
-            <Text>{startDate.toLocaleString()}</Text>
-            <Text>{endDate.toLocaleString()}</Text>
+            <Text>{startDate.toLocaleString({ weekday: 'short', month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit' })}</Text>
+            <Text>{endDate.toLocaleString({ weekday: 'short', month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit' })}</Text>
             </View>
         </View>
     );
