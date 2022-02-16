@@ -2,14 +2,20 @@ import { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { Button } from 'react-native';
 import * as Calendar from 'expo-calendar';
+import { DateTime } from 'luxon';
 
 import EditScreenInfo from '../../components/EditScreenInfo';
 import { Text, View } from '../../components/Themed';
 import { RootTabScreenProps } from '../../types';
+import { Schedule } from '../../modules/calendar/schedule.ios';
+import { CalendarEvent } from '../../modules/calendar/entities/calendar-event.entity';
+
+import { Event } from './event';
 
 export default function TestTabScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
   const [text, setText] = useState('Unclicked');
   const [error, setError] = useState('No Error Yet');
+  const [events, setEvents] = useState<CalendarEvent[]>([]);
 
   const requestPermission = async () => {
     try {
@@ -22,8 +28,11 @@ export default function TestTabScreen({ navigation }: RootTabScreenProps<'TabOne
 
   const getCalendarEvents = async () => {
     try {
-      const result = await Calendar.getCalendarsAsync(Calendar.EntityTypes.EVENT);
-      setText(JSON.stringify(result[0]));
+      const from = DateTime.now().minus({weeks: 1});
+      const to = DateTime.now();
+      const result = await new Schedule().getEvents(from, to);
+      // setText(JSON.stringify(result));
+      setEvents(result);
     } catch (e){
       setError (e.message);
     }
@@ -31,9 +40,13 @@ export default function TestTabScreen({ navigation }: RootTabScreenProps<'TabOne
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{text}</Text>
+      <View>
+        {events.map((e: CalendarEvent) => <Event event={e}/>)}
+      </View>
       <Button onPress={requestPermission} title={'Request Permission'}/>
       <Button onPress={getCalendarEvents} title={'Get Calendars Event'}/>
+      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+      <Text style={styles.title}>{text}</Text>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
       <Text style={styles.title}>{error}</Text>
     </View>
