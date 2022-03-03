@@ -11,6 +11,7 @@ import { Schedule } from '../../modules/calendar/schedule.ios';
 import { CalendarEvent } from '../../modules/calendar/entities/calendar-event.entity';
 
 import { Event } from './event';
+import { Clickable } from '../../components/clickable';
 
 export default function TestTabScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
   const [text, setText] = useState('Unclicked');
@@ -46,12 +47,18 @@ export default function TestTabScreen({ navigation }: RootTabScreenProps<'TabOne
           renderItem={({item}) => (<Event event={item}/>)}
           keyExtractor={(e: CalendarEvent) => e.id}
         />
-      <Button onPress={requestPermission} title={'Request Permission'}/>
-      <Button onPress={getCalendarEvents} title={'Get Calendars Event'}/>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+      {/* <Button onPress={requestPermission} title={'Request Permission'}/> */}
+      <Clickable
+        onPress={getCalendarEvents}
+      >
+        <Text>
+          Get Calendars Event
+        </Text>
+      </Clickable>
+      {/* <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
       <Text style={styles.title}>{text}</Text>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <Text style={styles.title}>{error}</Text>
+      <Text style={styles.title}>{error}</Text> */}
     </View>
   );
 }

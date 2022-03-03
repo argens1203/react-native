@@ -1,6 +1,5 @@
-import { DateTime } from 'luxon';
 import React from 'react';
-import { View, Text } from 'react-native';
+import { Text, View } from '../../components/Themed';
 import { CalendarEvent } from '../../modules/calendar/entities/calendar-event.entity';
 
 type Props = {
